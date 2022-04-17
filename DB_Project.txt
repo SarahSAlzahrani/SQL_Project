@@ -1,0 +1,72 @@
+-- Create database named " store "
+CREATE DATABASE store;
+
+-- Create table countries, users, orders, order_products, products
+-- Connect tables using foreign keys when applicable
+-- Add to each tables
+CREATE TABLE countries(
+code INT PRIMARY KEY,
+name VARCHAR(20) UNIQUE,
+continent_name VARCHAR(20) NOT NULL
+);
+
+CREATE TABLE users(
+id INT PRIMARY KEY,
+full_name VARCHAR(20),
+email VARCHAR(20) UNIQUE,
+gender CHAR(1),
+date_of_birth VARCHAR(15),
+created_at DATETIME,
+country_code INT,
+FOREIGN KEY (country_code) references countries(code),
+check(gender in ('m', 'f'))
+);
+
+CREATE TABLE orders(
+id INT PRIMARY KEY,
+user_id INT,
+status VARCHAR(6),
+create_at DATETIME,
+FOREIGN KEY (user_id) REFERENCES users(id),
+check(status in ('start', 'finish'))
+);
+
+CREATE TABLE products(
+id INT PRIMARY KEY,
+name VARCHAR(10) NOT NULL,
+price INT default 0,
+status VARCHAR(10),
+create_at DATETIME,
+check(status in ('valid', 'expired'))
+);
+
+CREATE TABLE order_products(
+order_id INT,
+product_id INT,
+PRIMARY KEY(order_id, product_id),
+FOREIGN KEY (order_id) REFERENCES orders(id),
+FOREIGN KEY (product_id) REFERENCES products(id),
+quantity INT default 0
+);
+
+
+-- Write the DML commands
+-- Add new row to the countries, users, orders, order_products, products
+INSERT INTO countries
+VALUES (966, 'KSA', 'Asia');
+
+INSERT INTO users
+VALUES (001, 'Sarah Saleh', 'sara@gmail.com', 'f', '1997-04-11', '2022-04-1 20:01:33', 966);
+
+INSERT INTO orders
+VALUES (1, 001, 'start', '2022-04-2 20:01:33');
+
+INSERT INTO products
+VALUES (100, 'prod1', 500, 'valid', '2022-04-8 20:01:33');
+
+-- Update row from countries table.
+UPDATE countries
+SET name = 'Saudi Arabia';
+
+-- Delete row from products table
+DELETE FROM products WHERE id = 100;

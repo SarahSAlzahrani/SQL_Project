@@ -64,6 +64,9 @@ VALUES (1, 001, 'start', '2022-04-2 20:01:33');
 INSERT INTO products
 VALUES (100, 'prod1', 500, 'valid', '2022-04-8 20:01:33');
 
+INSERT INTO order_products
+VALUES (1, 100, 250);
+
 -- Update row from countries table.
 UPDATE countries
 SET name = 'Saudi Arabia';
